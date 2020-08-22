@@ -1,29 +1,56 @@
-os:
-  - windows
-  - linux
-  - osx
-
-addons:
-  apt:
-    packages:
-    - autopoint
-
+os: linux
+dist: bionic
 language: c
 
-env:
-  - BRANCH=0.20.2
-  - BRANCH=1.0.6
-  - BRANCH=1.2.4
-  - BRANCH=devel
+matrix:
+  include:
+    # Linux - amd64
+    - arch: amd64
+      env: BRANCH=0.20.2
+    - arch: amd64
+      env: BRANCH=1.0.6
+    - arch: amd64
+      env: BRANCH=1.2.4
+    - arch: amd64
+      env: BRANCH=devel
+
+    # Linux - arm64
+    - arch: arm64
+      env: BRANCH=1.2.4
+
+    # Linux - ppc64
+    - arch: ppc64le
+      env: BRANCH=1.2.4
+
+    # macOS - amd64
+    - os: osx
+      env: BRANCH=0.20.2
+    - os: osx
+      env: BRANCH=1.2.4
+    - os: osx
+      env: BRANCH=1.0.6
+    - os: osx
+      env: BRANCH=devel
+
+    # windows - amd64
+    - os: windows
+      env: BRANCH=0.20.2
+    - os: windows
+      env: BRANCH=1.2.4
+    - os: windows
+      env: BRANCH=1.0.6
+    - os: windows
+      env: BRANCH=devel
 
 cache:
   directories:
     - "$HOME/.choosenim"
+    - "$HOME/Nim"
 
 install:
-  - export PATH="/usr/local/opt/gettext/bin:$PATH"
   - curl https://gist.github.com/elijahr/a72a228b9617b759a1c24062d35cc23d/raw/travis.sh -LsSf -o travis.sh
   - source travis.sh
 
 script:
-  - bash ./test.sh
+  - nimble develop -y
+  - nimble test
