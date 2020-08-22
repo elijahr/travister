@@ -1,5 +1,6 @@
 # Settings
 export NIMTEROP=
+export NIM_SEMVER=(`echo $BRANCH | tr '.' ' '`)
 
 # Shortcuts
 alias ix="curl -F 'f:1=<-' ix.io"
@@ -55,11 +56,10 @@ test genotrance nimarchive iconvJBB
 
 if [[ "$TRAVIS_CPU_ARCH" == "amd64" ]]; then
   # choosenim supports amd64, nim >= 1.2.4
-  SEMVER=(`echo $BRANCH | tr '.' ' '`)
   if [[ \
-      "${SEMVER[0]}" -gt 1 || \
-      ( "${SEMVER[0]}" == 1 && "${SEMVER[1]}" == 2 && "${SEMVER[2]}" -ge 4 ) || \
-      ( "${SEMVER[0]}" == 1 && "${SEMVER[1]}" -ge 3 ) \
+      ( "${NIM_SEMVER[0]}" == 1 && "${NIM_SEMVER[1]}" == 2 && "${NIM_SEMVER[2]}" -ge 4 ) || \
+      ( "${NIM_SEMVER[0]}" == 1 && "${NIM_SEMVER[1]}" -ge 3 ) || \
+      "${NIM_SEMVER[0]}" -gt 1 \
     ]]; then
     gclone dom96/choosenim
     cd choosenim
@@ -67,9 +67,8 @@ if [[ "$TRAVIS_CPU_ARCH" == "amd64" ]]; then
     nimble test
     cd ..
   fi
+  test genotrance nimgit2
 fi
-
-test genotrance nimgit2
 
 if [[ "$BRANCH" != "0.20.2" ]];
 then
