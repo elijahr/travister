@@ -53,13 +53,20 @@ test genotrance nimpcre
 
 test genotrance nimarchive iconvJBB
 
-if [[ "$BRANCH" != "0.20.2" ]];
-then
-  gclone dom96/choosenim
-  cd choosenim
-  nimble install -d -y  # Cannot nimble develop binary package
-  nimble test
-  cd ..
+if [[ "$TRAVIS_CPU_ARCH" == "amd64" ]]; then
+  # choosenim supports amd64, nim >= 1.2.4
+  SEMVER=(`echo $BRANCH | tr '.' ' '`)
+  if [[ \
+      "${SEMVER[0]}" -gt 1 || \
+      ( "${SEMVER[0]}" == 1 && "${SEMVER[1]}" == 2 && "${SEMVER[2]}" -ge 4 ) || \
+      ( "${SEMVER[0]}" == 1 && "${SEMVER[1]}" -ge 3 ) \
+    ]]; then
+    gclone dom96/choosenim
+    cd choosenim
+    nimble install -d -y  # Cannot nimble develop binary package
+    nimble test
+    cd ..
+  fi
 fi
 
 test genotrance nimgit2
