@@ -85,13 +85,12 @@ if [[ "$TRAVIS_CPU_ARCH" == "amd64" ]]
   then
     test genotrance nimbass
   fi
+ 
+  # Test nimble master
+  gcloneBranch nim-lang nimble
+  cd nimble/tests
+  nim c -r tester
+  cd ..
+  ./src/nimble install -y
+  cd ..
 fi
-
-# Test nimble master
-gcloneBranch nim-lang nimble
-cd nimble/tests
-nim c -r tester
-cd ..
-./src/nimble install -y
-cd ..
-
