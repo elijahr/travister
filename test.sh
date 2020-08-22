@@ -67,12 +67,12 @@ if [[ "$TRAVIS_CPU_ARCH" == "amd64" ]]; then
     nimble test
     cd ..
   fi
-  test genotrance nimgit2
-fi
 
-if [[ "$BRANCH" != "0.20.2" ]];
-then
-  test disruptek gittyup
+  test genotrance nimgit2
+
+  if [[ "${NIM_SEMVER[0]}" -gt 0 ]]; then
+    test disruptek gittyup
+  fi
 fi
 
 test genotrance nimbass
