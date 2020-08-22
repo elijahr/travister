@@ -48,9 +48,9 @@ cache:
     - "$HOME/Nim"
 
 install:
+  - export PATH="/usr/local/opt/gettext/bin:$PATH"
   - curl https://gist.github.com/elijahr/a72a228b9617b759a1c24062d35cc23d/raw/travis.sh -LsSf -o travis.sh
   - source travis.sh
 
 script:
-  - nimble develop -y
-  - nimble test
+  - bash ./test.sh
